@@ -1,0 +1,51 @@
+----------------------------------------------------------------------
+TRYING THE EXAMPLE PROGRAMS
+
+This directory contains a few example programs to get you started with
+mGTK.  In order to try the example programs, issue the following
+commands:
+
+
+(0) Edit Makefile to suit your installation
+
+
+Using Moscow ML:
+----------------
+
+(1) Build mGTK (just type make in mgtk dir)
+
+(2) make mosml 
+
+(3) set an environment variable:
+    Unix:
+      export MGTKHOME=~/mgtk-pre-0.93  (when using bash)
+      setenv MGTKHOME ~/mgtk-pre-0.93  (when using [t]csh)
+
+    Windows:
+      set MGTKHOME=\mgtk-pre-0.93
+
+    OR
+
+    copy $MGTKHOME/mgtk.so to the current dir. 
+
+(4) Run an example.  For instance 
+      ./signup
+
+
+Using MLton:
+------------
+
+(1) make mlton
+
+(2) Run an example.  For instance 
+      ./signup-mlton
+
+
+
+
+See NOTES for more information about the examples.
+
+Enjoy!
+
+----------------------------------------------------------------------
+  		     Henning Niss and Ken Friis Larsen, December, 2004

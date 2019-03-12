@@ -1,0 +1,125 @@
+editor.sml
+----------
+Small editor.  Shows how to use status bar, text view, notebook (tabs), 
+and file chooser.
+
+Planned feature (not implemented yet):
+  - Support for "Save", and "Close" actions
+  - Populate the edit menu, to show how to work with the clipboard
+  - Better error handling (i.e., better than non-existing)
+  - Keep track of modified buffers
+  - Perhaps add a toolbar
+
+Defects:
+  - Missing support for file chooser
+  - Missing support for unicode.  Try to open a file non-ascii characters,
+    or a file with non-ascii in the file name.
+
+
+
+dragdrop.sml
+------------
+An example adopted from "Mono, A Developers Notebook"
+(04-gtk/08-dragdrop).  Shows how to implement drag & drop.
+
+Defects:
+  - The program does not compile due to missing Gdk.Pixbuf support,
+    and perhaps also missing GError -> exceptions stuff.
+    WORKAROUND: Use high-level Gtk.Image API instead.
+  - The program does not compile due to missing Gtk.TargetEntry
+    support: no way to create one (assumed nice default).
+  - The program does not compile due to missing Gtk.TargetList
+    support: no structure in Gtk, no list-array support(?) for new. 
+  - Missing function gtk_drag_dest_set.  Assumes that it will be in
+    Gtk.Widget (like drag_dest_unset). An alternative could be to make
+    a structure Gtk.Drag.
+  - Missing enum types GtkDestDefaults, GdkDragAction, GdkModifierType
+  - Missing function gtk_drag_source_set.  Assumes that it will be in
+    Gtk.Widget.
+  - Missing gtk_drag_set_icon_pixbuf. Assumes that it will be in
+    Gtk.Widget.
+  - Missing gtk_drag_set_icon_pixbuf. Assumes that it will be in
+    Gtk.Widget.
+  - Missing support for types GdkDragContext and GtkSelectionData.  I
+    think that Gtk.SelectionData is just a (too) general encoding of a
+    string.
+  - In the function dataGet the argument data, is really an out-param,
+    which is supposed to fill.  Currently this is done by fictious
+    function set.
+
+
+treeview.sml
+------------
+An example adopted from "Mono, A Developers Notebook"
+(04-gtk/07-treeview).  Shows how to use TreeView as a tree-view
+widget.
+
+
+listview.sml
+------------
+An example adopted from "Mono, A Developers Notebook"
+(04-gtk/07-listview).  Shows how to use TreeView as a grid-like
+widget.
+
+
+menus.sml
+---------
+An example adopted from "Mono, A Developers Notebook"
+(04-gtk/06-menus).  Shows how to build menus and uses stock icons.
+
+Defects:
+  - Custom accelerators are not possible because Gdk support is
+    missing.
+
+
+signup.sml
+----------
+An example adopted from "Mono: A Developers Notebook"
+(04-gtk/03-signup).  Shows how to use mnemonic labels and XML markup.
+
+Defects:
+  - Glib properties does not work.  Thus, it is not possible to set
+    the "xalign" property of a label.  Workaround: use
+    Misc.set_alignment.
+  
+  - Using functions with default arguments is cumbersome.
+
+
+
+OLD DEFECTS:
+
+treeview.sml & listview.sml  (2004/10/28)
+-----------------------------------------
+
+  - The program does not compile.
+  - We need to handle GtkTreeIter, in particullar as the return
+    (actually out-param) for append. 
+
+  => wrapped missing parts of GtkTreeIter (output params) to make
+     the examples compile
+  => fixed more bugs in output param handling to make them run
+
+
+listview.sml  (2004/09/28)
+--------------------------
+
+  - To use a ListStore we need two varargs functions:
+       - new (or the language binding-friendly version newv)
+         For this we also need to wrap GType somehow
+       - set (or set_valist)
+    Workaround for varargs: use other functions newv and set_value        
+  - The same as those for listview.sml
+
+  => GType and GValue now wrapped (at least superficially)
+  => Array support added to handle newv
+
+
+signup.sml  (2004/09/27)
+------------------------
+
+  - Glib interfaces don't work.  Thus, Gtk.Entry does not have a
+    "changed" signal because we cannot use the one from Gtk.Editable.
+    A workaround was using Gtk.Signal directly was possible.
+
+  => Now Entry (similaryly for all other implementations of
+     interfaces) includes an asEditable function.
