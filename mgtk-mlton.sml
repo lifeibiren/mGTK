@@ -36,7 +36,7 @@ structure Gtk  = struct
       end = struct
         structure AS = ArraySlice
         (* Basic GTK stuff *)
-        val gtk_init_ = _import "mgtk_init" 
+        val gtk_init_ = _import "mgtk_init" reentrant
                       : CString.cstring array * int -> unit;
         fun init args = 
     	let val args =
@@ -49,8 +49,8 @@ structure Gtk  = struct
             in  gtk_init_(argv, Array.length argv)
     	end
     
-        val main      = _import "gtk_main" : unit -> unit;
-        val main_quit = _import "gtk_main_quit" : unit -> unit; 
+        val main      = _import "gtk_main" reentrant : unit -> unit;
+        val main_quit = _import "gtk_main_quit" reentrant : unit -> unit;
     end
     
     structure GObject :> 
@@ -236,12 +236,11 @@ structure Gtk  = struct
         val e = _export "mgtk_callback_destroy_smlside" 
                             : (callback_id -> unit) -> unit; 
         val _ = e destroy
-    		
-    
-    	fun register f = localId(fn id => (add (id, f); id))
-    	val signal_connect 
-    	    = _import "mgtk_signal_connect"
-                  : GO.cptr * CString.cstring * int * bool -> int;
+
+
+        fun register f = localId(fn id => (add (id, f); id))
+        val signal_connect = _import "mgtk_signal_connect" reentrant
+                           : GO.cptr * CString.cstring * int * bool -> int;
         in
         datatype state = S of GValue * GValues * int * int
         type ('a, 'b) trans   = 'a * state -> 'b * state

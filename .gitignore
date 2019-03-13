@@ -7,3 +7,4 @@ helloworld-new
 semantic.cache
 signup
 signup-mlton
+*.o
